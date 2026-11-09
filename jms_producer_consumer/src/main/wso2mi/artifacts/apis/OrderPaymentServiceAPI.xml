@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/order-payment" name="OrderPaymentServiceAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/">
+        <inSequence>
+            <!-- Set properties for asynchronous outbound messaging -->
+            <property name="OUT_ONLY" value="true"/>
+            <property name="FORCE_SC_ACCEPTED" scope="axis2" type="BOOLEAN" value="true"/>
+
+            <!-- Remove transport headers (like Content-Length) that cause Artemis validation errors -->
+            <!-- Removes all default transport headers -->
+            <property name="TRANSPORT_HEADERS" scope="axis2" action="remove"/>
+
+            <!-- Removes excess headers (like cookie data) that remain -->
+            <property name="EXCESS_TRANSPORT_HEADERS" scope="axis2" action="remove"/>
+
+            
+            <log level="full">
+                <property name="Message" value="Publishing message to OrderPaymentQueue"/>
+            </log>
+            
+            <!-- Send message to the JMS Endpoint -->
+            <send>
+                <endpoint key="OrderPaymentQueueEP"/>
+            </send>
+            
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>
