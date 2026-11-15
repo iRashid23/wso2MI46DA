@@ -107,7 +107,7 @@ private String sequenceName;
 
     public static OMElement createPlaceOrderRequest(String symbol, String qty, String purchPrice) {
         OMFactory factory = OMAbstractFactory.getOMFactory();
-        OMNamespace ns = factory.createOMNamespace("http://services.samples/xsd", "m0");
+        OMNamespace ns = factory.createOMNamespace("http://services.samples", "m0");
         OMElement placeOrder = factory.createOMElement("placeOrder", ns);
         OMElement order = factory.createOMElement("order", ns);
         OMElement price = factory.createOMElement("price", ns);
